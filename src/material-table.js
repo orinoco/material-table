@@ -712,7 +712,11 @@ export default class MaterialTable extends React.Component {
 
   onCellEditFinished = (rowData, columnDef) => {
     this.dataManager.finishCellEditable(rowData, columnDef);
-    this.setState(this.dataManager.getRenderState());
+    this.setState(this.dataManager.getRenderState(), () => {
+      if (this.isRemoteData()) {
+        this.onQueryChange(this.state.query);
+      }
+    });
   };
 
   onEditRowDataChanged = (rowData, newData) => {
